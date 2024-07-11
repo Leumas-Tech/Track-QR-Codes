@@ -1,0 +1,44 @@
+{% extends "header.html" %} {% block content %}
+<h1>QR Code Scan Logs</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>QR Code ID</th>
+            <th>Timestamp</th>
+            <th>User Agent</th>
+            <th>IP Address</th>
+        </tr>
+    </thead>
+    <tbody id="logs-table-body">
+        <!-- Logs will be dynamically inserted here -->
+    </tbody>
+</table>
+<script>
+    async function fetchLogs() {
+        const response = await fetch('/api/logs');
+        const logs = await response.json();
+        const tableBody = document.getElementById('logs-table-body');
+        tableBody.innerHTML = ''; // Clear existing rows
+
+        logs.forEach(log => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${log.id}</td>
+                <td>${log.qr_code_id}</td>
+                <td>${log.timestamp}</td>
+                <td>${log.user_agent}</td>
+                <td>${log.ip_address}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function startFetchingLogs() {
+        fetchLogs();
+        setInterval(fetchLogs, 5000); // Fetch logs every 5 seconds
+    }
+
+    window.onload = startFetchingLogs;
+</script>
+{% endblock %}

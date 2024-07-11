@@ -1,0 +1,66 @@
+{% extends "header.html" %}
+{% block title %}Generate QR Code{% endblock %}
+{% block content %}
+<h1>Generate QR Code</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label for="url">Enter URL:</label>
+    <input type="text" id="url" name="url">
+    <br>
+    <label for="bg_color">Background Color:</label>
+    <input type="color" id="bg_color" name="bg_color" value="#ffffff">
+    <br>
+    <input type="checkbox" id="transparent_bg" name="transparent_bg" value="true">
+    <label for="transparent_bg">Transparent Background</label>
+    <br>
+    <label for="border_width">Border Width:</label>
+    <input type="number" id="border_width" name="border_width" value="0" min="0">
+    <br>
+    <label for="border_radius">Border Radius:</label>
+    <input type="number" id="border_radius" name="border_radius" value="0" min="0">
+    <br>
+    <label for="border_color">Border Color:</label>
+    <input type="color" id="border_color" name="border_color" value="#000000">
+    <br>
+    <label for="padding">Padding:</label>
+    <input type="number" id="padding" name="padding" value="0" min="0">
+    <br>
+    <label for="logo">Upload Logo:</label>
+    <input type="file" id="logo" name="logo" accept="image/*">
+    <br>
+    <input type="checkbox" id="save_to_cloudinary" name="save_to_cloudinary" value="true">
+    <label for="save_to_cloudinary">Save to Cloudinary</label>
+    <br>
+    <div id="cloudinary_config" style="display: none;">
+        {% if not cloudinary_config %}
+        <label for="cloud_name">Cloudinary Cloud Name:</label>
+        <input type="text" id="cloud_name" name="cloud_name">
+        <br>
+        <label for="api_key">Cloudinary API Key:</label>
+        <input type="text" id="api_key" name="api_key">
+        <br>
+        <label for="api_secret">Cloudinary API Secret:</label>
+        <input type="text" id="api_secret" name="api_secret">
+        {% else %}
+        <p>Cloudinary is already configured.</p>
+        {% endif %}
+    </div>
+    <button type="submit">Generate</button>
+</form>
+{% if qr_code_img %}
+<h2>Generated QR Code:</h2>
+<img src="{{ url_for('static', filename=qr_code_img) }}" alt="QR Code">
+{% if cloudinary_url %}
+<p>Uploaded to Cloudinary: <a href="{{ cloudinary_url }}">{{ cloudinary_url }}</a></p>
+{% endif %}
+{% endif %}
+<script>
+    document.getElementById('save_to_cloudinary').addEventListener('change', function() {
+        var cloudinaryConfig = document.getElementById('cloudinary_config');
+        if (this.checked) {
+            cloudinaryConfig.style.display = 'block';
+        } else {
+            cloudinaryConfig.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

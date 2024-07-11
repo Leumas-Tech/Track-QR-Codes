@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}QR Code Management{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('index') }}">
+                <img src="https://res.cloudinary.com/dx25lltre/image/upload/v1707176122/Leumas/2_t6ap9y.svg" alt="Logo" width="48" height="48">
+            </a>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('generate_qr') }}">Generate</a></li>
+                <li><a href="{{ url_for('qr_codes') }}">View QR Codes</a></li>
+                <li><a href="{{ url_for('charts') }}">Statistics</a></li>
+                <li><a href="{{ url_for('import_qr') }}">Import</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+
+</html>

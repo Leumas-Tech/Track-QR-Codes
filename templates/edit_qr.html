@@ -1,0 +1,8 @@
+{% extends "header.html" %} {% block title %}Edit QR Code{% endblock %} {% block content %}
+<h1>Edit QR Code ID: {{ qr_code_id }}</h1>
+<form method="POST">
+    <label for="new_id">New QR Code ID:</label>
+    <input type="text" id="new_id" name="new_id" required>
+    <button type="submit">Update</button>
+</form>
+<a href="{{ url_for('qr_codes') }}">Back to QR Codes</a> {% endblock %}
